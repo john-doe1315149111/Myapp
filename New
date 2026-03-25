@@ -1,0 +1,91 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: MainScreen(),
+    );
+  }
+}
+
+class MainScreen extends StatefulWidget {
+  @override
+  _MainScreenState createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  int index = 0;
+
+  List<Widget> pages = [
+    Center(child: Text('Home Page')),
+    Center(child: Text('Profile Page')),
+    Center(child: Text('Messages Page')),
+    Center(child: Text('Settings Page')),
+  ];
+
+  void changePage(int i) {
+    setState(() {
+      index = i;
+    });
+    Navigator.pop(context); // closes drawer safely
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Mobile App'),
+      ),
+
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+              child: Text('Menu'),
+              decoration: BoxDecoration(color: Colors.blue),
+            ),
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text('Home'),
+              onTap: () => changePage(0),
+            ),
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Profile'),
+              onTap: () => changePage(1),
+            ),
+            ListTile(
+              leading: Icon(Icons.message),
+              title: Text('Messages'),
+              onTap: () => changePage(2),
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text('Settings'),
+              onTap: () => changePage(3),
+            ),
+          ],
+        ),
+      ),
+
+      body: pages[index],
+
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: index,
+        onTap: changePage,
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          BottomNavigationBarItem(icon: Icon(Icons.message), label: 'Messages'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+        ],
+      ),
+    );
+  }
+}
